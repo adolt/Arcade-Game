@@ -1,3 +1,25 @@
 body {
   text-align: center;
 }
+
+canvas {
+  position: fixed;
+  top: calc(50% - 403px);
+  left: calc(50% - 303px);
+}
+
+.stars {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+
+.stars li {
+  list-style: none;
+  display: inline-block;
+}
+
+.shine {
+  color: #f1e047;
+}
