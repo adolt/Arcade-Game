@@ -31,6 +31,9 @@ HTML5、CSS、JavaScript，其中游戏场景主要使用了HTML5提供的Canvas
 
 ## 如何游戏
 
+### 线上地址
+[Arcade-Game](https://notbored.cc/udacity/arcade-game/)
+
 ### 使用 Git
 1. 克隆项目
 ```bash
