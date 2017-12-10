@@ -234,4 +234,10 @@ const resetEntity = function() {
   hero.position.y = 405;
   allGems.length = 0;
   allGems.push(new Gem(101, 239, 'blue'), new Gem(505, 73, 'green'));
+  // 重置分数评级
+  Array.from(document.getElementsByClassName('stars')[0].children).forEach(
+    li => {
+      li.children[0].classList.remove('shine');
+    }
+  );
 };
