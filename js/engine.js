@@ -5,7 +5,7 @@
  * 一个游戏引擎的工作过程就是不停的绘制整个游戏屏幕，和小时候你们做的 flipbook 有点像。当
  * 玩家在屏幕上移动的时候，看上去就是图片在移动或者被重绘。但这都是表面现象。实际上是整个屏幕
  * 被重绘导致这样的动画产生的假象
- 
+
  * 这个引擎是可以通过 Engine 变量公开访问的，而且它也让 canvas context (ctx) 对象也可以
  * 公开访问，以此使编写app.js的时候更加容易
  */
@@ -149,7 +149,8 @@ var Engine = (function(global) {
 
     let metEnemy = allEnemies.some(enemy => {
       let { x: ex, y: ey } = enemy.position;
-      return hy === ey && (hx > ex ? hx < ex + 101 : hx + 101 > ex);
+      // -20 微调小碰撞半径
+      return hy === ey && (hx > ex ? hx < ex + 101 - 20 : hx + 101 - 20 > ex);
     });
     if (metEnemy) {
       running = false;

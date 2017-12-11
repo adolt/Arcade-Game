@@ -41,7 +41,7 @@ class Gem extends Entity {
     // 奖励宝石区分颜色，所以这里需要传入一个color参数
     super(
       { x, y },
-      'images/Gem ' + color[0].toUpperCase() + color.slice(1) + '.png'
+      `images/Gem ${color[0].toUpperCase()}${color.slice(1)}.png`
     );
   }
 }
@@ -57,13 +57,13 @@ class MoveEntity extends Entity {
     if (direction === 'left' && x <= 0) {
       return true;
     }
-    if (direction === 'right' && x + 101 >= 606) {
+    if (direction === 'right' && x + CELL_WIDTH >= CELL_WIDTH * 6) {
       return true;
     }
     if (direction === 'up' && y <= 0) {
       return true;
     }
-    if (direction === 'down' && y + 83 >= 498) {
+    if (direction === 'down' && y + CELL_HEIGHT >= CELL_HEIGHT * 6) {
       return true;
     }
     return false;
@@ -89,7 +89,7 @@ class Enemy extends MoveEntity {
           ? 'images/enemy-bug-r.png'
           : 'images/enemy-bug-l.png';
     }
-    this.position.x = this.position.x + this.direction * 101 * dt;
+    this.position.x = this.position.x + this.direction * CELL_WIDTH * dt;
   }
 }
 
@@ -105,16 +105,16 @@ class Hero extends MoveEntity {
     if (!this.isAtEdge(direction) && !this.willHitRock(direction)) {
       switch (direction) {
         case 'left':
-          this.position.x -= 101;
+          this.position.x -= CELL_WIDTH;
           break;
         case 'right':
-          this.position.x += 101;
+          this.position.x += CELL_WIDTH;
           break;
         case 'up':
-          this.position.y -= 83;
+          this.position.y -= CELL_HEIGHT;
           break;
         case 'down':
-          this.position.y += 83;
+          this.position.y += CELL_HEIGHT;
       }
       // 检查移动后是否获得奖励
       this.checkIfGotGem();
@@ -129,16 +129,16 @@ class Hero extends MoveEntity {
     let { x: rx, y: ry } = rock.position;
     switch (direction) {
       case 'left':
-        willHit = hy === ry && hx === rx + 101;
+        willHit = hy === ry && hx === rx + CELL_WIDTH;
         break;
       case 'right':
-        willHit = hy === ry && rx === hx + 101;
+        willHit = hy === ry && rx === hx + CELL_WIDTH;
         break;
       case 'up':
-        willHit = hx === rx && hy === ry + 83;
+        willHit = hx === rx && hy === ry + CELL_HEIGHT;
         break;
       case 'down':
-        willHit = hx === rx && ry === hy + 83;
+        willHit = hx === rx && ry === hy + CELL_HEIGHT;
     }
     return willHit;
   }
@@ -198,22 +198,25 @@ class Util {
   }
 }
 
+const CELL_WIDTH = 101
+const CELL_HEIGHT = 83
+
 // 把障碍物对象放进一个叫 rock 的变量里
-const rock = new Rock(303, 239);
+const rock = new Rock(CELL_WIDTH * 3, CELL_HEIGHT * 3 - 10);
 
 // 把所有宝石的对象都放进一个叫 allGems 的数组里
 const allGems = [];
-allGems.push(new Gem(101, 239, 'blue'), new Gem(505, 73, 'green'));
+allGems.push(new Gem(CELL_WIDTH, CELL_HEIGHT * 3 - 10, 'blue'), new Gem(CELL_WIDTH * 5, CELL_HEIGHT - 10, 'green'));
 
 // 把所有敌人的对象都放进一个叫 allEnemies 的数组里
 const allEnemies = [];
-allEnemies.push(new Enemy(101, 73), new Enemy(505, 156), new Enemy(0, 322));
+allEnemies.push(new Enemy(CELL_WIDTH, CELL_HEIGHT - 10), new Enemy(CELL_WIDTH * 5, CELL_HEIGHT * 2 - 10), new Enemy(0, CELL_HEIGHT * 4 - 10));
 
 // 把玩家对象放进一个叫 Hero 的变量里
-const hero = new Hero(202, 405);
+const hero = new Hero(CELL_WIDTH * 2, CELL_HEIGHT * 5 - 10);
 
 // 把公主对象放进一个叫 princess 的变量里
-const princess = new Princess(303, -10);
+const princess = new Princess(CELL_WIDTH * 3, -10);
 
 // 这段代码监听游戏玩家的键盘点击事件并且代表将按键的关键数字送到 Play.handleInput()
 // 方法里面。你不需要再更改这段代码了。
@@ -230,10 +233,10 @@ document.addEventListener('keyup', e => {
 
 // 重置画布中的实体
 const resetEntity = function() {
-  hero.position.x = 202;
-  hero.position.y = 405;
+  hero.position.x = CELL_WIDTH * 2;
+  hero.position.y = CELL_HEIGHT * 5 - 10;
   allGems.length = 0;
-  allGems.push(new Gem(101, 239, 'blue'), new Gem(505, 73, 'green'));
+  allGems.push(new Gem(CELL_WIDTH, CELL_HEIGHT * 3 - 10, 'blue'), new Gem(CELL_WIDTH * 5, CELL_HEIGHT - 10, 'green'));
   // 重置分数评级
   Array.from(document.getElementsByClassName('stars')[0].children).forEach(
     li => {
